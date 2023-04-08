@@ -69,8 +69,8 @@ class HomeInstitutional extends Component {
                     <div className='register-label'>
                         <div className='register-title'>
                         <h1>Cadastre-se e faça parte dessa comunidade</h1>
+                        <button>Cadastre-se</button>
                         </div>
-                        <button></button>
                     </div>
                 </div>
             </div>
