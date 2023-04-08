@@ -26,6 +26,14 @@ class HomeInstitutional extends Component {
                         </div>
                     </div>
                 </div>
+                <div className='about-us'>
+                    <h1>Plataforma feita por investidores para investidores</h1>
+                    <div className='about-us-labels'>
+                        <div className='about-us-divs'>aaa</div>
+                        <div className='about-us-divs'>aaa</div>
+                        <div className='about-us-divs'>aaa</div>
+                    </div>
+                </div>
             </div>
         );
     }
