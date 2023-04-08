@@ -48,7 +48,7 @@ class App extends Component {
   }
 }
 
-function Login() {
+function Page() {
   return (
     <MuiThemeProvider muiTheme={this.state.theme}>
       <div className="content-wrapper">

@@ -29,7 +29,7 @@ class Register extends Component{
                         <a href='teste'>Forget Password</a>
                       </div>
                       <button>Log in</button>
-                      <div className='register'>
+                      <div >
                         <p>Don't have a account <a href='teste'>Register</a></p>
                       </div>
                     </form>

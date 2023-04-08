@@ -3,6 +3,7 @@ import './HomeInstitutional.css';
 import icon from '../../../assets/images/icon.png'
 import logo from '../../../assets/images/zupMarelo4.png'
 import banner from '../../../assets/images/zupMarelo1.png'
+import banner2 from '../../../assets/images/zupBanner.png'
 
 
 class HomeInstitutional extends Component {
@@ -24,7 +25,7 @@ class HomeInstitutional extends Component {
                     </div>
                     <div className='hellcome-banner'>
                         <div className='hellcome-img'>
-                            <img src="" alt="" />
+                            <img src = {banner2} />
                         </div>
                     </div>
                 </div>
