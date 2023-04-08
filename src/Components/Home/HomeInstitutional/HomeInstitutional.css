@@ -4,14 +4,21 @@
   background-color: black;
   display: flex;
   justify-content: space-between;
-  
+  align-items: center;
+}
+
+.nav img{
+  display: flex;
+  margin-left: 30px;
+  width: 50px;
+  height: 50px;
 }
 
 .form{
   display: flex;
   align-items: center;
-  margin-right: 10px;
-  width: 25%;
+  margin-left: 30px;
+  width: 15%;
   justify-content: space-evenly;
 }
 
@@ -49,7 +56,6 @@ button{
 
 .hellcome-img{
 position: absolute;
-width: 60%;
 background-color: blue;
 height: 700px;
 }
@@ -60,8 +66,8 @@ height: 700px;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 500px;
-  background: red;
+  height: 700px;
+  background: black;
 }
 
 .about-us-labels{
@@ -69,10 +75,79 @@ height: 700px;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  background: blue;
   justify-content: space-evenly;
   color: white;
   height: 50%;
   margin-top: 100px;
   border-radius: 10px;
 }
+
+.about-us h1{
+  width: 25%;
+  text-align: center;
+  font-size: 25px;
+  color: #F2CB05;
+}
+
+.about-us h2{
+  text-align: center;
+  color: white;
+}
+
+.about-us-divs{
+  justify-content: center;
+  text-align: center;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-us-divs label{
+  color: #F2CB05;
+  font-size: 16px;
+}
+
+.about-us-title{
+  margin-bottom: 10px;
+}
+
+.about-us-divs img{
+  margin-bottom: 30px;
+}
+
+.register{
+  background-color: #00384B;
+  width: 100%;
+  height: 700px;
+  display: flex;
+  align-items: center;
+}
+
+.register-label h1{
+  width: 30%;
+  height: 50%;
+  margin-left: 15px;
+}
+
+.register-title{
+  width: 10%;
+  height: 80%;
+}
+
+
+
+.register-banner{
+  display: flex;
+  align-items: center;
+  width: 60%;
+
+}
+
+.register-banner img{
+position: absolute;
+background-color: blue;
+height: 700px;
+}
+
+
