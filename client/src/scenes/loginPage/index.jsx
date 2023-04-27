@@ -5,6 +5,7 @@ const LoginPage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   return (
+    <div className="login">
     <Box>
       <Box
         width={isNonMobileScreens ? "50%" : "93%"}
@@ -19,6 +20,7 @@ const LoginPage = () => {
         <Form />
       </Box>
     </Box>
+    </div>
   );
 };
 

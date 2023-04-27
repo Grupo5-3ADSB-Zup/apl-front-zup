@@ -15,28 +15,27 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
-import MyPostWidget from "scenes/widgets/MyPostWidget";
-import { useSelector } from "react-redux";
+
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
+  username: yup.string().required("required"),
   password: yup.string().required("required"),
-  location: yup.string().required("required"),
-  occupation: yup.string().required("required"),
+  cpf: yup.string().required("required"),
+  cnpj: yup.string(),
   picture: yup.string().required("required"),
 });
 
 const loginSchema = yup.object().shape({
-  email: yup.string().email("invalid email").required("required"),
+  username: yup.string().required("required"),
   password: yup.string().required("required"),
 });
 
 const initialValuesRegister = {
   firstName: "",
   lastName: "",
-  email: "",
+  username: "",
   password: "",
   location: "",
   occupation: "",
@@ -44,7 +43,7 @@ const initialValuesRegister = {
 };
 
 const initialValuesLogin = {
-  email: "",
+  username: "",
   password: "",
 };
 
@@ -154,25 +153,25 @@ const Form = () => {
                   sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
-                  label="Location"
+                  label="CPF"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.location}
-                  name="location"
-                  error={Boolean(touched.location) && Boolean(errors.location)}
-                  helperText={touched.location && errors.location}
+                  name="cpf"
+                  error={Boolean(touched.cpf) && Boolean(errors.cpf)}
+                  helperText={touched.cpf && errors.cpf}
                   sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
-                  label="Occupation"
+                  label="CNPJ"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.occupation}
-                  name="occupation"
+                  name="cnpj"
                   error={
-                    Boolean(touched.occupation) && Boolean(errors.occupation)
+                    Boolean(touched.cnpj) && Boolean(errors.cnpj)
                   }
-                  helperText={touched.occupation && errors.occupation}
+                  helperText={touched.cnpj && errors.cnpj}
                   sx={{ gridColumn: "span 4" }}
                 />
                 <Box
@@ -212,13 +211,13 @@ const Form = () => {
             )}
 
             <TextField
-              label="Email"
+              label="Username"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={values.email}
-              name="email"
-              error={Boolean(touched.email) && Boolean(errors.email)}
-              helperText={touched.email && errors.email}
+              value={values.username}
+              name="username"
+              error={Boolean(touched.username) && Boolean(errors.username)}
+              helperText={touched.username && errors.username}
               sx={{ gridColumn: "span 4" }}
             />
             <TextField

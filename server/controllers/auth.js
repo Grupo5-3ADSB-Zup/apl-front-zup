@@ -8,12 +8,12 @@ export const register = async (req, res) => {
     const {
       firstName,
       lastName,
-      email,
+      username,
       password,
       picturePath,
       friends,
-      location,
-      occupation,
+      cpf,
+      cnpj,
     } = req.body;
 
     const salt = await bcrypt.genSalt();
@@ -22,12 +22,12 @@ export const register = async (req, res) => {
     const newUser = new User({
       firstName,
       lastName,
-      email,
+      username,
       password: passwordHash,
       picturePath,
       friends,
-      location,
-      occupation,
+      cpf,
+      cnpj,
       viewedProfile: Math.floor(Math.random() * 10000),
       impressions: Math.floor(Math.random() * 10000),
     });
@@ -41,8 +41,8 @@ export const register = async (req, res) => {
 /* LOGGING IN */
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
+    const { username, password } = req.body;
+    const user = await User.findOne({ username: username });
     if (!user) return res.status(400).json({ msg: "User does not exist. " });
 
     const isMatch = await bcrypt.compare(password, user.password);
