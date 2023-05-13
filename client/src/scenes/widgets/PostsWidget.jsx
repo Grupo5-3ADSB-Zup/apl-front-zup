@@ -11,7 +11,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const token = useSelector((state) => state.token);
 
   const getPosts = async () => {
-    const response = await fetch("http://localhost:3001/posts", {
+    const response = await fetch("http://localhost:8080/noticia/rss", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

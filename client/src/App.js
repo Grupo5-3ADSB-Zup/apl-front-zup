@@ -18,7 +18,7 @@ function App() {
     <div className="app">
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
+          <CssBaseline/>
           <Routes>
             <Route path="/" element={<Index/>} />
             <Route path="/login" element={<LoginPage />} />

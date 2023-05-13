@@ -6,7 +6,6 @@ const LoginPage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   return (
     <div className="login">
-    <Box>
       <Box
         width={isNonMobileScreens ? "50%" : "93%"}
         p="2rem"
@@ -19,7 +18,6 @@ const LoginPage = () => {
         </Typography>
         <Form />
       </Box>
-    </Box>
     </div>
   );
 };

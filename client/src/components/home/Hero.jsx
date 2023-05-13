@@ -24,7 +24,7 @@ const Hero = () => {
           />
         </div>
         <p className='md:text-2xl text-xl font-bold text-gray-500'>Tenha acesso às notícias mais atuais de forma sucinta e centralizada!</p>
-        <button className='bg-[#D7EAF0] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-black'>Sobre Nós</button>
+        <button className='bg-[#F2CB05] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-black'>Sobre nós</button>
       </div>
     </div>
   );
