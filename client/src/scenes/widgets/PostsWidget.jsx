@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
@@ -10,13 +10,15 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
 
+  const [postagens, setPostagens] = useState([]);
+
   const getPosts = async () => {
     const response = await fetch("http://localhost:8080/noticia/rss", {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    dispatch(setPosts({ posts: data.reverse() }));
+    setPostagens(data)
+    // dispatch(setPosts({ posts: data }));
   };
 
   const getUserPosts = async () => {
@@ -41,7 +43,17 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   return (
     <>
-      {posts.map(
+
+      {
+        postagens.map(item => (
+          <div key={item.id}>
+            <h2>{item.titulo}</h2>
+            <h2>{item.descricao}</h2>
+          </div>
+        ))
+      }
+
+      {/* {posts.map(
         ({
           _id,
           userId,
@@ -67,7 +79,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             comments={comments}
           />
         )
-      )}
+      )} */}
     </>
   );
 };
