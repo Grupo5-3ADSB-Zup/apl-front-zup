@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
+import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import PostWidget from "./PostWidget";
 import MyPostWidget from "scenes/widgets/MyPostWidget";
+import WidgetWrapper from "components/WidgetWrapper";
+import ComponenteX from "./ComponenteX";
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const { _id, picturePath } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
+
+  const { palette } = useTheme();
+  const main = palette.neutral.main;
+  const primary = palette.primary.main;
 
   const [postagens, setPostagens] = useState([]);
 
@@ -46,40 +53,29 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
       {
         postagens.map(item => (
-          <div key={item.id}>
-            <h2>{item.titulo}</h2>
-            <h2>{item.descricao}</h2>
-          </div>
+
+
+          <WidgetWrapper key={item.id} id={`noticia_${item.id}`}  m="2rem 0">
+
+            <Typography color={main} sx={{ mt: "1rem" }}>
+              {item.emissora}
+            </Typography>
+            <Typography color={main} sx={{ mt: "1rem" }}>
+              {item.titulo}
+            </Typography >
+              <ComponenteX width="100%"
+            height="auto"
+            alt="post"
+            style={{borderRadius: "0.75rem", marginTop: "0.75"}}
+              texto={item.descricao} idNoticia={item.id} />
+        
+
+            
+            
+
+          </WidgetWrapper>
         ))
       }
-
-      {/* {posts.map(
-        ({
-          _id,
-          userId,
-          firstName,
-          lastName,
-          description,
-          location,
-          picturePath,
-          userPicturePath,
-          likes,
-          comments,
-        }) => (
-          <PostWidget
-            key={_id}
-            postId={_id}
-            postUserId={userId}
-            name={`${firstName} ${lastName}`}
-            description={description}
-            location={location}
-            picturePath={picturePath}
-            userPicturePath={userPicturePath}
-            likes={likes}
-            comments={comments}
-          />
-        )
-      )} */}
     </>
   );
 };
