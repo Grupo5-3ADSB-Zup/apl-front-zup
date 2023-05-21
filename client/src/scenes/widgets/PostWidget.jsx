@@ -4,7 +4,10 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import {
+  Box, Divider, IconButton, Typography, useTheme, Button, Input,
+  Modal,
+} from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -14,10 +17,11 @@ import { useDispatch, useSelector } from "react-redux";
 import ComponenteX from "./ComponenteX";
 import { useEffect } from "react";
 import { setPost } from "state";
+import axios from "axios";
 
 const PostWidget = ({
   postId,
-  postUserId,
+  values,
   name,
   picturePath,
   userPicturePath,
@@ -26,11 +30,53 @@ const PostWidget = ({
 }) => {
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [titulo, setTitulo] = useState('');
+  const [pergunta, setPergunta] = useState('');
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const [postagens, setPostagens] = useState([]);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setTitulo('');
+    setPergunta('');
+  };
+
+  const handleQuestionChange = (event) => {
+    setTitulo(event.target.value);
+  };
+
+  const handleAnswerChange = (event) => {
+    setPergunta(event.target.value);
+  };
+
+  const handleModalSubmit = async (event) => {
+    event.preventDefault();
+
+    const data = {
+      titulo,
+      pergunta,
+    };
+
+    axios
+      .post('http://localhost:8080/noticia/rss/info', data)
+      .then(() => {
+        console.log(data);
+        console.log('Tudo certo!');
+        alert('Evento cadastrado com sucesso!');
+      })
+      .catch(() => {
+        console.log(data);
+        console.log('Alguma coisa deu errado!');
+      });
+  };
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -57,10 +103,6 @@ const PostWidget = ({
     dispatch(setPost({ post: updatedPost }));
   };
 
-  
-
-
-
   useEffect(() => {
     getPost();
   }, []);
@@ -69,7 +111,7 @@ const PostWidget = ({
     <>
       {
         postagens.map(item => (
-          <WidgetWrapper m="2rem 0">
+          <WidgetWrapper key={item.id} m="2rem 0">
             <Friend
               name={item.emissora}
               userPicturePath={userPicturePath}
@@ -102,9 +144,55 @@ const PostWidget = ({
                 </FlexBetween>
               </FlexBetween>
 
-              <IconButton>
+              <IconButton onClick={handleModalOpen}>
                 <ShareOutlined />
               </IconButton>
+
+              <Modal open={isModalOpen} onClose={handleModalClose}>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    padding: '20px',
+                    width: '400px',
+                    maxWidth: '95%',
+                    maxHeight: '90vh',
+                    overflowY: 'auto',
+                  }}
+                >
+                  <Typography variant="h5" gutterBottom>
+                    Compartilhar Publicação
+                  </Typography>
+                  <form onSubmit={handleModalSubmit}>
+                    <Input
+                      placeholder="Digite um titulo"
+                      values={titulo}
+                      onChange={handleQuestionChange}
+                      fullWidth
+                      sx={{ marginBottom: '10px' }}
+                    />
+                    <Input
+                      placeholder="Digite uma pergunta"
+                      values={pergunta}
+                      onChange={handleAnswerChange}
+                      fullWidth
+                      multiline
+                      rows={4}
+                      sx={{ marginBottom: '10px' }}
+                    />
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Button onClick={handleModalSubmit} type="submit" variant="contained" sx={{ marginLeft: '10px' }}>
+                        Enviar
+                      </Button>
+                      <Button onClick={handleModalClose} variant="contained" sx={{ marginLeft: '10px' }}>
+                        Cancelar
+                      </Button>
+                    </Box>
+                  </form>
+                </Box>
+              </Modal>
             </FlexBetween>
             {isComments && (
               <Box mt="0.5rem">

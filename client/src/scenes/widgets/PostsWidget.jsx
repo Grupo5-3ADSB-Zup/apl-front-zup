@@ -20,7 +20,6 @@ const PostsWidget = () => {
 
 
 
-
   useEffect(() => {
     getPosts();
   }, []);
