@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
+import axios from "axios";
+
 
 const PostsWidget = () => {
   const dispatch = useDispatch();
@@ -10,13 +12,16 @@ const PostsWidget = () => {
 
 
   const getPosts = async () => {
-    const response = await fetch("http://localhost:3001/posts", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    dispatch(setPosts({ posts: data }));
+    try {
+      const response = await axios.get("http://localhost:3001/posts", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(setPosts({ posts: response.data }));
+    } catch (error) {
+      console.log('Erro ao obter os posts:', error);
+    }
   };
+  
 
 
 

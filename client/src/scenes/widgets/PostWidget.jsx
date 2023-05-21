@@ -21,7 +21,6 @@ import axios from "axios";
 
 const PostWidget = ({
   postId,
-  values,
   name,
   picturePath,
   userPicturePath,
@@ -65,6 +64,7 @@ const PostWidget = ({
       pergunta,
     };
 
+
     axios
       .post('http://localhost:8080/noticia/rss/info', data)
       .then(() => {
@@ -83,26 +83,33 @@ const PostWidget = ({
   const primary = palette.primary.main;
 
   const getPost = async () => {
-    const response = await fetch("http://localhost:8080/admin/filaPilha/noticias", {
-      method: "GET",
-    });
-    const data = await response.json();
-    setPostagens(data)
+    try {
+      const response = await axios.get("http://localhost:8080/admin/filaPilha/noticias");
+      setPostagens(response.data);
+    } catch (error) {
+      console.log('Erro ao obter as postagens:', error);
+    }
   };
-
+  
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: loggedInUserId }),
-    });
-    const updatedPost = await response.json();
-    dispatch(setPost({ post: updatedPost }));
+    try {
+      const response = await axios.patch(
+        `http://localhost:3001/posts/${postId}/like`,
+        { userId: loggedInUserId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const updatedPost = response.data;
+      dispatch(setPost({ post: updatedPost }));
+    } catch (error) {
+      console.log('Erro ao atualizar o like:', error);
+    }
   };
-
+  
   useEffect(() => {
     getPost();
   }, []);
