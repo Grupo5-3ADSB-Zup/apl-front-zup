@@ -29,6 +29,7 @@ const HomePage = () => {
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
+          
           <PostsWidget userId={_id} />
         </Box>
         {isNonMobileScreens && (

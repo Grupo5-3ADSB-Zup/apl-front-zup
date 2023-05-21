@@ -1,57 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import PostWidget from "./PostWidget";
-import MyPostWidget from "scenes/widgets/MyPostWidget";
-import WidgetWrapper from "components/WidgetWrapper";
-import ComponenteX from "./ComponenteX";
 
-const PostsWidget = ({ userId, isProfile = false }) => {
-  const { _id, picturePath } = useSelector((state) => state.user);
+const PostsWidget = () => {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
+  const posts = useSelector((state) => state.posts);
 
-  const { palette } = useTheme();
-  const main = palette.neutral.main;
-  const primary = palette.primary.main;
-
-  const [postagens, setPostagens] = useState([]);
 
   const getPosts = async () => {
-    const response = await fetch("http://localhost:8080/noticia/rss", {
+    const response = await fetch("http://localhost:3001/posts", {
       method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    setPostagens(data)
-    // dispatch(setPosts({ posts: data }));
+    dispatch(setPosts({ posts: data }));
   };
 
-  const getUserPosts = async () => {
-    const response = await fetch(
-      `http://localhost:3001/posts/${userId}/posts`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    dispatch(setPosts({ posts: data.reverse() }));
-  };
+
+
 
   useEffect(() => {
-    if (isProfile) {
-      getUserPosts();
-    } else {
-      getPosts();
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    getPosts();
+  }, []);
 
   return (
     <>
 
-      {
+
+      {posts.map(
+        ({
+          _id,
+          likes,
+          comments,
+        }) => (
+          <PostWidget
+
+            key={_id}
+            postId={_id}
+            likes={likes}
+            comments={comments}
+          />
+        )
+      )}
+
+
+
+
+
+      {/* {
         postagens.map(item => (
 
 
@@ -63,19 +61,49 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             <Typography color={main} sx={{ mt: "1rem" }}>
               {item.titulo}
             </Typography >
-              <ComponenteX width="100%"
-            height="auto"
-            alt="post"
-            style={{borderRadius: "0.75rem", marginTop: "0.75"}}
-              texto={item.descricao} idNoticia={item.id} />
-        
 
-            
-            
+              <ComponenteX texto={item.descricao} idNoticia={item.id} />
+              <FlexBetween mt="0.25rem">
+        <FlexBetween gap="1rem">
+          <FlexBetween gap="0.3rem">
+            <IconButton onClick={patchLike}>
+              {isLiked ? (
+                <FavoriteOutlined sx={{ color: primary }} />
+              ) : (
+                <FavoriteBorderOutlined />
+              )}
+            </IconButton>
+            <Typography>{likeCount}</Typography>
+          </FlexBetween>
 
+          <FlexBetween gap="0.3rem">
+            <IconButton onClick={() => setIsComments(!isComments)}>
+              <ChatBubbleOutlineOutlined />
+            </IconButton>
+            <Typography>{comments.length}</Typography>
+          </FlexBetween>
+        </FlexBetween>
+
+        <IconButton>
+          <ShareOutlined />
+        </IconButton>
+      </FlexBetween>
+      {isComments && (
+        <Box mt="0.5rem">
+          {comments.map((comment, i) => (
+            <Box key={`${name}-${i}`}>
+              <Divider />
+              <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+                {comment}
+              </Typography>
+            </Box>
+          ))}
+          <Divider />
+        </Box>
+      )}
           </WidgetWrapper>
         ))
-      }
+      }  */}
     </>
   );
 };
