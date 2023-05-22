@@ -32,6 +32,7 @@ const PostWidget = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [titulo, setTitulo] = useState('');
   const [pergunta, setPergunta] = useState('');
+  const [resposta, setResposta] = useState('');
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
@@ -62,13 +63,14 @@ const PostWidget = ({
     const data = {
       titulo,
       pergunta,
+      resposta
     };
-
 
     axios
       .post('http://localhost:8080/noticia/rss/info', data)
-      .then(() => {
-        console.log(data);
+      .then(response => {
+        setResposta(JSON.stringify(response.data));
+        console.log(JSON.stringify(response.data));
         console.log('Tudo certo!');
         alert('Evento cadastrado com sucesso!');
       })
@@ -77,6 +79,8 @@ const PostWidget = ({
         console.log('Alguma coisa deu errado!');
       });
   };
+
+  
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -90,7 +94,7 @@ const PostWidget = ({
       console.log('Erro ao obter as postagens:', error);
     }
   };
-  
+
   const patchLike = async () => {
     try {
       const response = await axios.patch(
@@ -109,7 +113,7 @@ const PostWidget = ({
       console.log('Erro ao atualizar o like:', error);
     }
   };
-  
+
   useEffect(() => {
     getPost();
   }, []);
@@ -154,7 +158,7 @@ const PostWidget = ({
               <IconButton onClick={handleModalOpen}>
                 <ShareOutlined />
               </IconButton>
-
+              
               <Modal open={isModalOpen} onClose={handleModalClose}>
                 <Box
                   sx={{
@@ -189,8 +193,16 @@ const PostWidget = ({
                       rows={4}
                       sx={{ marginBottom: '10px' }}
                     />
+                    <Input
+                      placeholder="Digite uma pergunta"
+                      values={resposta}
+                      fullWidth
+                      multiline
+                      rows={10}
+                      sx={{ marginBottom: '10px' }}
+                    />
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                      <Button onClick={handleModalSubmit} type="submit" variant="contained" sx={{ marginLeft: '10px' }}>
+                      <Button onClick={handleModalSubmit}  type="submit" variant="contained" sx={{ marginLeft: '10px' }}>
                         Enviar
                       </Button>
                       <Button onClick={handleModalClose} variant="contained" sx={{ marginLeft: '10px' }}>
