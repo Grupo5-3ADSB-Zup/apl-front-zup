@@ -12,7 +12,7 @@ import Index from "components/home/homeInstitucional";
 function App() {
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const isAuth = Boolean(useSelector((state) => state.token));
+  const isAuth = Boolean(useSelector((state) => state.user.token));
 
   return (
     <div className="app">
@@ -24,11 +24,11 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route
               path="/home"
-              element={isAuth ? <HomePage /> : <Navigate to="/" />}
+              element={isAuth ? <HomePage /> : <Index/>}
             />
             <Route
               path="/profile/:userId"
-              element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
+              element={isAuth ? <ProfilePage /> : <Index/>}
             />
           </Routes>
         </ThemeProvider>

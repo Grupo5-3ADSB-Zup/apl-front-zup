@@ -45,7 +45,7 @@ const initialValuesRegister = {
 
 const initialValuesLogin = {
   username: "",
-  password: "",
+  senha: "",
 };
 
 const Form = () => {
@@ -90,7 +90,7 @@ const Form = () => {
   const login = async (values, onSubmitProps) => {
     const requestData = {
       username: values.username,
-      password: values.password,
+      senha: values.password,
     };
 
     try {
@@ -101,8 +101,7 @@ const Form = () => {
       if (loggedInUser) {
         dispatch(
           setLogin({
-            user: loggedInUser,
-            token: response.headers.authorization,
+            user: loggedInUser
           })
           
         );

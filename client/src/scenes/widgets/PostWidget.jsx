@@ -125,7 +125,6 @@ const PostWidget = ({
           <WidgetWrapper key={item.id} m="2rem 0">
             <Friend
               name={item.emissora}
-              userPicturePath={userPicturePath}
             />
             <Typography fontSize={"18px"} marginBottom={"10px"} color={main} sx={{ mt: "1rem" }}>
               {item.titulo}
