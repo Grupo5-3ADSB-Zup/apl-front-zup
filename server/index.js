@@ -14,6 +14,7 @@ import postRoutes from "./routes/posts.js";
 import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
 import { verifyToken } from "./middleware/auth.js";
+import sql from 'mssql';
 import User from "./models/User.js";
 import Post from "./models/Post.js";
 import { users, posts } from "./data/index.js";
@@ -52,18 +53,37 @@ app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 
-/* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
-    /* ADD DATA ONE TIME */
-    // User.insertMany(users);
-    // Post.insertMany(posts);
+// Configuração de conexão SQL
+const config = {
+  server: 'projeto-zup.database.windows.net',
+  authentication: {
+    type: 'default',
+    options: {
+      userName: 'admin-zup',
+      password: '#Gfgrupo5'
+      
+    },
+  },
+  database: 'bd-projeto-zup',
+  options: {
+    encrypt: true, // Habilitar criptografia (recomendado)
+    trustServerCertificate: true, // Confiança no certificado do servidor (apenas para desenvolvimento)
+  },
+};
+
+// Conectar-se ao banco de dados SQL
+sql.connect(config)
+  .then(() => {
+    console.log('Conectado ao banco de dados SQL do Azure');
+
+    // Iniciar o servidor após a conexão ser estabelecida
+    app.listen(PORT, () => {
+      console.log(`Servidor executando na porta: ${PORT}`);
+    });
   })
-  .catch((error) => console.log(`${error} did not connect`));
+  .catch((error) => {
+    console.error(`Não foi possível conectar ao banco de dados SQL do Azure: ${error.message}`);
+  });
+

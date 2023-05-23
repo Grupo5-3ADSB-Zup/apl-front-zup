@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
+import axios from "axios";
 
 
 const registerSchema = yup.object().shape({
@@ -37,9 +38,9 @@ const initialValuesRegister = {
   lastName: "",
   username: "",
   password: "",
-  location: "",
-  occupation: "",
-  picture: "",
+  cnpj: "",
+  cpf: "",
+  picture: null,
 };
 
 const initialValuesLogin = {
@@ -57,46 +58,61 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const register = async (values, onSubmitProps) => {
-    // this allows us to send form info with image
-    const formData = new FormData();
-    for (let value in values) {
-      formData.append(value, values[value]);
-    }
-    formData.append("picturePath", values.picture.name);
+    const requestData = {
+      nome: values.firstName,
+      email: "", // Adicione o campo de e-mail se necessário
+      username: values.username,
+      senha: values.password,
+      autenticado: false, // Defina o valor correto se necessário
+      influencer: false, // Defina o valor correto se necessário
+      logado: false, // Defina o valor correto se necessário
+      cpf: values.cpf,
+      cnpj: values.cnpj,
+      foto: values.picture,
+    };
 
-    const savedUserResponse = await fetch(
-      "http://localhost:3001/auth/register",
-      {
-        method: "POST",
-        body: formData,
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/cadastro/user/comum",
+        requestData
+      );
+      const savedUser = response.data;
+      onSubmitProps.resetForm();
+
+      if (savedUser) {
+        setPageType("login");
       }
-    );
-    const savedUser = await savedUserResponse.json();
-    onSubmitProps.resetForm();
-
-    if (savedUser) {
-      setPageType("login");
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    const loggedIn = await loggedInResponse.json();
-    onSubmitProps.resetForm();
-    if (loggedIn) {
-      dispatch(
-        setLogin({
-          user: loggedIn.user,
-          token: loggedIn.token,
-        })
-      );
-      navigate("/home");
+    const requestData = {
+      username: values.username,
+      password: values.password,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:8080/login/logar", requestData);
+      const loggedInUser = response.data;
+      onSubmitProps.resetForm();
+
+      if (loggedInUser) {
+        dispatch(
+          setLogin({
+            user: loggedInUser,
+            token: response.headers.authorization,
+          })
+          
+        );
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
+
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);
@@ -156,7 +172,7 @@ const Form = () => {
                   label="CPF"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.location}
+                  value={values.cpf}
                   name="cpf"
                   error={Boolean(touched.cpf) && Boolean(errors.cpf)}
                   helperText={touched.cpf && errors.cpf}
@@ -166,7 +182,7 @@ const Form = () => {
                   label="CNPJ"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.occupation}
+                  value={values.cnpj}
                   name="cnpj"
                   error={
                     Boolean(touched.cnpj) && Boolean(errors.cnpj)
