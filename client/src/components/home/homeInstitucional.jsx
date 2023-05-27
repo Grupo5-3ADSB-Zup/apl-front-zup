@@ -7,6 +7,8 @@ import Navbar from './Navbar';
 import Newsletter from './Newsletter';
 
 function Index() {
+
+
   return (
     <div className="index">
       <Navbar />

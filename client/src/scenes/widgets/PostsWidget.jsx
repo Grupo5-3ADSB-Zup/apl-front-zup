@@ -11,22 +11,22 @@ const PostsWidget = () => {
   const posts = useSelector((state) => state.posts);
 
 
-  const getPosts = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/posts", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      dispatch(setPosts({ posts: response.data }));
-    } catch (error) {
-      console.log('Erro ao obter os posts:', error);
-    }
-  };
+  // const getPosts = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:3001/posts", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     dispatch(setPosts({ posts: response.data }));
+  //   } catch (error) {
+  //     console.log('Erro ao obter os posts:', error);
+  //   }
+  // };
   
 
 
 
   useEffect(() => {
-    getPosts();
+    // getPosts();
   }, []);
 
   return (

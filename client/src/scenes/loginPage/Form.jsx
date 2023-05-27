@@ -45,7 +45,7 @@ const initialValuesRegister = {
 
 const initialValuesLogin = {
   username: "",
-  senha: "",
+  password: "",
 };
 
 const Form = () => {
@@ -99,12 +99,15 @@ const Form = () => {
       onSubmitProps.resetForm();
 
       if (loggedInUser) {
+        console.log("ENTREI NO DISPATCH")
         dispatch(
           setLogin({
-            user: loggedInUser
+            user: loggedInUser,
+            token: response.headers.authorization,
           })
           
-        );
+          );
+          console.log("após o dispatch")
         navigate("/home");
       }
     } catch (error) {

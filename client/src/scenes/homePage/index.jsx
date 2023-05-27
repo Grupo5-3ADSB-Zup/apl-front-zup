@@ -2,21 +2,18 @@ import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import Navbar from "scenes/navbar";
 import UserWidget from "scenes/widgets/UserWidget";
-
+import { useState } from "react";
 import PostsWidget from "scenes/widgets/PostsWidget";
 import AdvertWidget from "scenes/widgets/AdvertWidget";
+import FriendListWidget from "scenes/widgets/FriendListWidget";
+import state from "state";
+
+
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-<<<<<<< HEAD
-  const { _id, picturePath } = useSelector((state) => state.user);
-  const isAuth = useSelector((state) => state.user);
-
-  console.log(isAuth);
-=======
   const _id = useSelector((state) => state.user.id);
 
->>>>>>> c0a182da (Melhoria na HomePage)
 
   return (
     <Box>
@@ -29,7 +26,7 @@ const HomePage = () => {
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget userId={_id} picturePath={picturePath} />
+          <UserWidget userId={_id}/>
         </Box>
 
         <Box
@@ -43,6 +40,7 @@ const HomePage = () => {
           <Box flexBasis="26%">
             <AdvertWidget />
             <Box m="2rem 0" />
+            <FriendListWidget userId={_id} />
           </Box>
         )}
       </Box>

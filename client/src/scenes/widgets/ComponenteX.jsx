@@ -1,3 +1,5 @@
+import PostWidget from "./PostWidget";
+
 function ComponenteX(props) {
   const { texto, idNoticia } = props;
   
@@ -9,6 +11,8 @@ function ComponenteX(props) {
   divNoticia.innerHTML = texto;
   }
   };
+
+  <PostWidget noticiaId ={idNoticia} />
   
   updateDivNoticia();
   

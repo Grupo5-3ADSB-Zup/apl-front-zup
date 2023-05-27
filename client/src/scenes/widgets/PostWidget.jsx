@@ -20,7 +20,8 @@ import { setPost } from "state";
 import axios from "axios";
 
 const PostWidget = ({
-  postId,
+  noticiaId,
+  userId,
   name,
   picturePath,
   userPicturePath,
@@ -34,7 +35,7 @@ const PostWidget = ({
   const [pergunta, setPergunta] = useState('');
   const [resposta, setResposta] = useState('');
   const token = useSelector((state) => state.token);
-  const loggedInUserId = useSelector((state) => state.user._id);
+  const loggedInUserId = useSelector((state) => state.user.id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const [postagens, setPostagens] = useState([]);
@@ -73,6 +74,10 @@ const PostWidget = ({
         console.log(JSON.stringify(response.data));
         console.log('Tudo certo!');
         alert('Evento cadastrado com sucesso!');
+        axios.get(`/endpoint para get/${response.data.id}`)
+          .then((resposta) => {
+            setResposta(resposta.data);
+          })
       })
       .catch(() => {
         console.log(data);
@@ -97,26 +102,6 @@ const PostWidget = ({
     }
   };
 
-<<<<<<< HEAD
-  const patchLike = async () => {
-    try {
-      const response = await axios.patch(
-        `http://localhost:3001/posts/${postId}/like`,
-        { userId: loggedInUserId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      const updatedPost = response.data;
-      dispatch(setPost({ post: updatedPost }));
-    } catch (error) {
-      console.log('Erro ao atualizar o like:', error);
-    }
-  };
-=======
   // const patchLike = async (like) => {
   //   try {
   //     const response = await axios.put(`http://localhost:8080/noticia/likes/${}`, like);
@@ -131,7 +116,6 @@ const PostWidget = ({
   //   }
   // };
   
->>>>>>> c0a182da (Melhoria na HomePage)
 
   useEffect(() => {
     getPost();
@@ -144,12 +128,13 @@ const PostWidget = ({
           <WidgetWrapper key={item.id} m="2rem 0">
             <Friend
               name={item.emissora}
+              userPicturePath={userPicturePath}
             />
             <Typography fontSize={"18px"} marginBottom={"10px"} color={main} sx={{ mt: "1rem" }}>
               {item.titulo}
             </Typography>
             <Divider />
-            <ComponenteX texto={item.descricao} idNoticia={item.id} />
+            <ComponenteX texto={item.descricao} idNoticia={item.id}  />
             <Box id={`noticia_${item.id}`}></Box>
             <Divider />
             <FlexBetween mt="0.25rem">
@@ -247,6 +232,12 @@ const PostWidget = ({
             )}
           </WidgetWrapper>
         ))}
+
+
+
+        {
+          resposta && <div resposta={resposta}> </div>
+        }
     </>
   );
 };

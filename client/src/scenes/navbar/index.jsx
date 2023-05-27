@@ -55,7 +55,7 @@ const Navbar = () => {
             },
           }}
         >
-          ZUP.
+          ZUP
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
