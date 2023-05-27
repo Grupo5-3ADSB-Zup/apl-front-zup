@@ -8,10 +8,15 @@ import AdvertWidget from "scenes/widgets/AdvertWidget";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+<<<<<<< HEAD
   const { _id, picturePath } = useSelector((state) => state.user);
   const isAuth = useSelector((state) => state.user);
 
   console.log(isAuth);
+=======
+  const _id = useSelector((state) => state.user.id);
+
+>>>>>>> c0a182da (Melhoria na HomePage)
 
   return (
     <Box>

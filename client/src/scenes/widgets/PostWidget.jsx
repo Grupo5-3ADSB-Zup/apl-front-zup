@@ -87,6 +87,8 @@ const PostWidget = ({
   const primary = palette.primary.main;
 
   const getPost = async () => {
+  
+
     try {
       const response = await axios.get("http://localhost:8080/admin/filaPilha/noticias");
       setPostagens(response.data);
@@ -95,6 +97,7 @@ const PostWidget = ({
     }
   };
 
+<<<<<<< HEAD
   const patchLike = async () => {
     try {
       const response = await axios.patch(
@@ -113,6 +116,22 @@ const PostWidget = ({
       console.log('Erro ao atualizar o like:', error);
     }
   };
+=======
+  // const patchLike = async (like) => {
+  //   try {
+  //     const response = await axios.put(`http://localhost:8080/noticia/likes/${}`, like);
+  //     if (response.status === 200) {
+  //       return response.data;
+  //     } else {
+  //       throw new Error("Ocorreu um erro ao atualizar a notícia.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Ocorreu um erro durante a solicitação:", error.message);
+  //     throw error;
+  //   }
+  // };
+  
+>>>>>>> c0a182da (Melhoria na HomePage)
 
   useEffect(() => {
     getPost();
@@ -136,13 +155,13 @@ const PostWidget = ({
             <FlexBetween mt="0.25rem">
               <FlexBetween gap="1rem">
                 <FlexBetween gap="0.3rem">
-                  <IconButton onClick={patchLike}>
+                  {/* <IconButton onClick={patchLike}>
                     {isLiked ? (
                       <FavoriteOutlined sx={{ color: primary }} />
                     ) : (
                       <FavoriteBorderOutlined />
                     )}
-                  </IconButton>
+                  </IconButton> */}
                   <Typography>{likeCount}</Typography>
                 </FlexBetween>
 

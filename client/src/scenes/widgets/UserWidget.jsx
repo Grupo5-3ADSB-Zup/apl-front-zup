@@ -19,6 +19,7 @@ const UserWidget = ({ userId, picturePath }) => {
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
 
+<<<<<<< HEAD
   const getUser = async () => {
     const response = await fetch(`http://localhost:3001/users/${userId}`, {
       method: "GET",
@@ -26,6 +27,17 @@ const UserWidget = ({ userId, picturePath }) => {
     });
     const data = await response.json();
     setUser(data);
+=======
+  const getUse = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/usuario/${userId}`,  {
+      });
+      setUser(response.data);
+      console.log("chegou");
+    } catch (error) {
+      console.error("Ocorreu um erro durante a solicitação:", error.message);
+    }
+>>>>>>> c0a182da (Melhoria na HomePage)
   };
 
   useEffect(() => {
