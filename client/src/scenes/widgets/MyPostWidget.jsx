@@ -22,49 +22,48 @@ import Dropzone from "react-dropzone";
 import UserImage from "components/UserImage";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "state";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
-const MyPostWidget = ({ picturePath }) => {
-  const dispatch = useDispatch();
+
+const MyPostWidget = ({ idNoticia, comentarios, setComentarios }) => {
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
-  const [post, setPost] = useState("");
   const { palette } = useTheme();
-  const { _id } = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
+  const { id } = useSelector((state) => state.user);
+  const [comentario, setComentario] = useState('');
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
 
-  const handlePost = async () => {
-    const formData = new FormData();
-    formData.append("userId", _id);
-    formData.append("description", post);
-    if (image) {
-      formData.append("picture", image);
-      formData.append("picturePath", image.name);
-    }
 
-    const response = await fetch(`http://localhost:3001/posts`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    });
-    const posts = await response.json();
-    dispatch(setPosts({ posts }));
-    setImage(null);
-    setPost("");
+  const handlePost = async () => {
+    const data = {
+      comentario,
+    };
+  
+    try {
+      const response = await axios.post(`http://localhost:8080/noticia/comentarios/${id}/${idNoticia}`, data);
+      const novoComentario = response.data.comentario;
+      setComentarios([...comentarios, novoComentario]);
+      setComentario('');
+      console.log(novoComentario);
+      alert('Comentário cadastrado com sucesso!');
+    } catch (error) {
+      console.log('Alguma coisa deu errado!', error);
+    }
   };
+  
+  
 
   return (
     <WidgetWrapper>
       <FlexBetween gap="1.5rem">
-        <UserImage image={picturePath} />
+        <UserImage />
         <InputBase
           placeholder="What's on your mind..."
-          onChange={(e) => setPost(e.target.value)}
-          value={post}
+          onChange={(e) => setComentario(e.target.value)}
+          value={comentario}
           sx={{
             width: "100%",
             backgroundColor: palette.neutral.light,
@@ -155,7 +154,7 @@ const MyPostWidget = ({ picturePath }) => {
         )}
 
         <Button
-          disabled={!post}
+          disabled={!comentario}
           onClick={handlePost}
           sx={{
             color: palette.background.alt,

@@ -1,13 +1,8 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "state";
+import { useSelector } from "react-redux";
 import PostWidget from "./PostWidget";
-import axios from "axios";
-
 
 const PostsWidget = () => {
-  const dispatch = useDispatch();
-  const token = useSelector((state) => state.token);
   const posts = useSelector((state) => state.posts);
 
 

@@ -19,15 +19,9 @@ import axios from "axios";
 
 
 const PostWidget = ({
-  userId,
-  name,
-  picturePath,
-  userPicturePath,
+  comentarioData,
   likes,
-  comments,
-  size = "60px"
 }) => {
-  const [isComments, setIsComments] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [titulo, setTitulo] = useState('');
   const [pergunta, setPergunta] = useState('');
@@ -37,7 +31,8 @@ const PostWidget = ({
   const likeCount = Object.keys(likes).length;
   const [postagens, setPostagens] = useState([]);
   const [noticiaId, setNoiticiaId] = useState([]);
-
+  const [comentario, setComentario] = useState('');
+  const [comentarios, setComentarios] = useState([]);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -69,22 +64,17 @@ const PostWidget = ({
     axios
       .post('http://localhost:8080/noticia/rss/info', data)
       .then(response => {
-        setResposta(JSON.stringify(response.data));
-        console.log(JSON.stringify(response.data));
+        setResposta(response.data.resposta)
+        console.log(response.data.resposta)
         console.log('Tudo certo!');
-        alert('Evento cadastrado com sucesso!');
-        axios.get(`/endpoint para get/${response.data.id}`)
-          .then((resposta) => {
-            setResposta(resposta.data);
-          })
+        alert('Evento cadastrado com sucesso!')
+
       })
       .catch(() => {
         console.log(data);
         console.log('Alguma coisa deu errado!');
       });
   };
-
-
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -168,41 +158,86 @@ const PostWidget = ({
                 </FlexBetween>
 
                 <FlexBetween gap="0.3rem">
-                  <IconButton onClick={() => setIsComments(!isComments)}>
+                  <IconButton onClick={() => setComentario(!comentario)}>
                     <ChatBubbleOutlineOutlined />
                   </IconButton>
-                  <Typography>{comments.length}</Typography>
+                  <Typography>{comentario.length}</Typography>
                 </FlexBetween>
               </FlexBetween>
-
               <IconButton onClick={handleModalOpen}>
                 <ShareOutlined />
               </IconButton>
-
-              
+              <Modal open={isModalOpen} onClose={handleModalClose}>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    padding: '20px',
+                    width: '400px',
+                    maxWidth: '95%',
+                    maxHeight: '90vh',
+                    overflowY: 'auto',
+                  }}
+                >
+                  <Typography variant="h5" gutterBottom>
+                    Compartilhar Publicação
+                  </Typography>
+                  <form onSubmit={handleModalSubmit}>
+                    <Input
+                      placeholder="Digite um titulo"
+                      values={titulo}
+                      onChange={handleQuestionChange}
+                      fullWidth
+                      sx={{ marginBottom: '10px' }}
+                    />
+                    <Input
+                      placeholder="Digite uma pergunta"
+                      values={pergunta}
+                      onChange={handleAnswerChange}
+                      fullWidth
+                      multiline
+                      rows={4}
+                      sx={{ marginBottom: '10px' }}
+                    />
+                    {resposta && (
+                      <Typography variant="body1" sx={{ marginTop: '10px' }}>
+                        {resposta}
+                      </Typography>
+                    )}
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Button onClick={handleModalSubmit} type="submit" variant="contained" sx={{ marginLeft: '10px' }}>
+                        Enviar
+                      </Button>
+                      <Button onClick={handleModalClose} variant="contained" sx={{ marginLeft: '10px' }}>
+                        Cancelar
+                      </Button>
+                    </Box>
+                  </form>
+                </Box>
+              </Modal>
             </FlexBetween>
-            {isComments && (
-              <Box mt="0.5rem">
-                {comments.map((comment, i) => (
-                  <Box key={`${name}-${i}`}>
-                    <MyPostWidget picturePath={picturePath} />
-                    <Divider />
-                    <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                      {comment}
-                    </Typography>
-                  </Box>
-                ))}
+            {comentario &&
+            <Box mt="0.5rem">
+              <Divider />
+              <MyPostWidget idNoticia={item.id} comentarios={comentarios} setComentarios={setComentarios} />
+              <Box key={item.id}>
                 <Divider />
+                {comentarios.map((comentario, index) => (
+                  <div key={index} style={{ paddingLeft: '1rem' }}>
+                    <Typography sx={{ color: main, m: '0.5rem 0' }}>
+                      {comentario}
+                    </Typography>
+                    {index !== comentarios.length - 1 && <hr />}
+                  </div>
+                ))}
               </Box>
-            )}
+              <Divider />
+            </Box>
+            }
           </WidgetWrapper>
         ))}
-
-
-
-      {
-        resposta && <div resposta={resposta}> </div>
-      }
     </>
   );
 };

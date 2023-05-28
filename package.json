@@ -1,9 +1,21 @@
 {
-    "name": "Zup",
+    "name": "apl-front-zup",
     "version": "1.0.0",
-    "private": true,
+    "description": "Projeto exemplificando o deploy automático de uma API em Node.js no Azure AppServices",
+    "main": "index.js",
     "scripts": {
-      "start": "node ./site/app.js",
-      "postinstall": "cd site && npm install"
-    }
+      "start": "node index.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/marcelovismari/consolelog-github-actions-appservice-azure.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/marcelovismari/consolelog-github-actions-appservice-azure/issues"
+    },
+    "homepage": "https://github.com/marcelovismari/consolelog-github-actions-appservice-azure#readme",
+    "type": "module"
   }

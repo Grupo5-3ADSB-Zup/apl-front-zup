@@ -106,6 +106,7 @@ const Navbar = () => {
               <MenuItem value={nome}>
                 <Typography>{nome}</Typography>
               </MenuItem>
+              <MenuItem onClick={() => navigate("/admin")}> Admin</MenuItem>
               <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </Select>
           </FormControl>

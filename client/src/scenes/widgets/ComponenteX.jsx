@@ -1,5 +1,3 @@
-import { useState } from "react";
-import PostWidget from "./PostWidget";
 
 function ComponenteX(props) {
   const { texto, idNoticia } = props;
