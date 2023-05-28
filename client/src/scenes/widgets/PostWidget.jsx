@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import ComponenteX from "./ComponenteX";
 import { useEffect } from "react";
 import axios from "axios";
+import UserImage from "components/UserImage";
 
 
 const PostWidget = ({
@@ -27,12 +28,18 @@ const PostWidget = ({
   const [pergunta, setPergunta] = useState('');
   const [resposta, setResposta] = useState('');
   const loggedInUserId = useSelector((state) => state.user.id);
+  const nome = useSelector((state) => state.user.nome);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const [postagens, setPostagens] = useState([]);
   const [noticiaId, setNoiticiaId] = useState([]);
   const [comentario, setComentario] = useState('');
   const [comentarios, setComentarios] = useState([]);
+
+  const { palette } = useTheme();
+  const main = palette.neutral.main;
+  const primary = palette.primary.main;
+  const dark = palette.neutral.dark;
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -76,9 +83,7 @@ const PostWidget = ({
       });
   };
 
-  const { palette } = useTheme();
-  const main = palette.neutral.main;
-  const primary = palette.primary.main;
+
 
   const getPost = async () => {
 
@@ -158,7 +163,7 @@ const PostWidget = ({
                 </FlexBetween>
 
                 <FlexBetween gap="0.3rem">
-                  <IconButton onClick={() => setComentario(!comentario)}>
+                  <IconButton onClick={() => setComentario(item.id)}>
                     <ChatBubbleOutlineOutlined />
                   </IconButton>
                   <Typography>{comentario.length}</Typography>
@@ -218,23 +223,49 @@ const PostWidget = ({
                 </Box>
               </Modal>
             </FlexBetween>
-            {comentario &&
-            <Box mt="0.5rem">
-              <Divider />
-              <MyPostWidget idNoticia={item.id} comentarios={comentarios} setComentarios={setComentarios} />
-              <Box key={item.id}>
+            {comentario === item.id &&
+              <Box mt="0.5rem">
                 <Divider />
-                {comentarios.map((comentario, index) => (
-                  <div key={index} style={{ paddingLeft: '1rem' }}>
-                    <Typography sx={{ color: main, m: '0.5rem 0' }}>
-                      {comentario}
-                    </Typography>
-                    {index !== comentarios.length - 1 && <hr />}
-                  </div>
-                ))}
+                <MyPostWidget idNoticia={item.id} comentarios={comentarios} setComentarios={setComentarios} />
+                <Box key={item.id}>
+                  <Divider />
+                  {comentarios.map((comentario, index) => {
+                    // Check if the comment matches the ID of the news
+                    return (
+                      <div key={index} style={{ paddingLeft: '1rem' }}>
+                        <Box marginTop={"10px"} display="flex" alignItems="center">
+                          <UserImage size="30px" />
+                          <Box ml={1}>
+                            <Typography
+                              variant="h5"
+                              color={dark}
+                              fontWeight="200"
+                              sx={{
+                                "&:hover": {
+                                  color: palette.primary.light,
+                                  cursor: "pointer",
+                                },
+                              }}
+                            >
+                              {nome}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        {
+                          
+                        <Box mt={0.5}>
+                          <Typography sx={{ color: main, m: '1.5rem 0' }}>
+                            {comentario}
+                          </Typography>
+                          {index !== comentarios.length - 1 && <hr />}
+                        </Box>
+                        }
+                      </div>
+                    );
+                  })}
+                </Box>
+                <Divider />
               </Box>
-              <Divider />
-            </Box>
             }
           </WidgetWrapper>
         ))}

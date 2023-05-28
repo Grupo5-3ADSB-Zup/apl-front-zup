@@ -55,6 +55,7 @@ const MyPostWidget = ({ idNoticia, comentarios, setComentarios }) => {
   };
   
   
+  
 
   return (
     <WidgetWrapper>
