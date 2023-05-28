@@ -1,10 +1,11 @@
 import React from 'react';
+import image from '../../assets/Untitled-1.png'
 
 const Analytics = () => {
   return (
     <div className='w-full bg-[#D7EAF0] py-16 px-4 '>
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-2'>
-        <img className='w-[500px] mx-auto my-4' src="../../../public/assets/" alt='' />
+        <img className='w-[500px] mx-auto my-4' src={image} alt='' />
         <div className='flex flex-col justify-center'>
           <h1 className='text-[black] md:text-4xl sm:text-3xl text-2xl font-bold py-2'>Sua central de informações sobre investimentos</h1>
           <p className='text-[black]'>

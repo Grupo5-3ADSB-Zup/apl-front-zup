@@ -18,6 +18,7 @@ import FlexBetween from "components/FlexBetween";
 import axios from "axios";
 
 
+
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
@@ -57,21 +58,35 @@ const Form = () => {
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
+
   const register = async (values, onSubmitProps) => {
-    const requestData = {
-      nome: values.firstName,
-      email: "", // Adicione o campo de e-mail se necessário
-      username: values.username,
-      senha: values.password,
-      autenticado: false, // Defina o valor correto se necessário
-      influencer: false, // Defina o valor correto se necessário
-      logado: false, // Defina o valor correto se necessário
-      cpf: values.cpf,
-      cnpj: values.cnpj,
-      foto: values.picture,
+    const file = values.picture;
+    const readFileAsArrayBuffer = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+      });
     };
 
     try {
+      const arrayBuffer = await readFileAsArrayBuffer(file);
+      const bytes = new Uint8Array(arrayBuffer);
+
+      const requestData = {
+        nome: `${values.firstName} ${values.lastName}`,
+        email: "", // Adicione o campo de e-mail se necessário
+        username: values.username,
+        senha: values.password,
+        autenticado: false, // Defina o valor correto se necessário
+        influencer: false, // Defina o valor correto se necessário
+        logado: false, // Defina o valor correto se necessário
+        cpf: values.cpf,
+        cnpj: values.cnpj,
+        foto: Array.from(bytes),
+      };
+
       const response = await axios.post(
         "http://localhost:8080/cadastro/user/comum",
         requestData
@@ -105,9 +120,9 @@ const Form = () => {
             user: loggedInUser,
             token: response.headers.authorization,
           })
-          
-          );
-          console.log("após o dispatch")
+
+        );
+        console.log("após o dispatch")
         navigate("/home");
       }
     } catch (error) {
@@ -142,12 +157,22 @@ const Form = () => {
             display="grid"
             gap="30px"
             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            flexWrap={"wrap"}
             sx={{
               "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
             }}
           >
+
             {isRegister && (
+
               <>
+                <Box sx={{ mb: "1.5rem", gridColumn: "span 4" }}>
+                  <Typography fontWeight="500" variant="h5">
+                    Bem vindo a Zup, insira seus dados para criar uma conta.
+                  </Typography>
+                </Box>
+
+
                 <TextField
                   label="First Name"
                   onBlur={handleBlur}
@@ -228,8 +253,17 @@ const Form = () => {
               </>
             )}
 
+            {isLogin && (
+              <Box sx={{ mb: "0.2rem", gridColumn: "span 4" }}>
+                <Typography fontWeight="500" variant="h5">
+                  Bem vindo a Zup, Acesse sua conta para continuar.
+                </Typography>
+              </Box>
+)
+            }
+
             <TextField
-              label="Username"
+              label="Usuario"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.username}
@@ -239,9 +273,9 @@ const Form = () => {
               sx={{ gridColumn: "span 4" }}
             />
             <TextField
-              label="Password"
-              type="password"
+              label="Senha"
               onBlur={handleBlur}
+              type="password"
               onChange={handleChange}
               value={values.password}
               name="password"
@@ -281,8 +315,8 @@ const Form = () => {
               }}
             >
               {isLogin
-                ? "Don't have an account? Sign Up here."
-                : "Already have an account? Login here."}
+                ? "Não tem uma conta? Cadastre-se aqui."
+                : "Já possui uma conta? Acesse aqui."}
             </Typography>
           </Box>
         </form>

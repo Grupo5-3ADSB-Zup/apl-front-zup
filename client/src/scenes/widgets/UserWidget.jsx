@@ -37,7 +37,6 @@ const UserWidget = ({ userId }) => {
 
   const {
     nome,
-    foto
   } = user;
 
   return (
@@ -49,7 +48,7 @@ const UserWidget = ({ userId }) => {
             onClick={() => navigate(`/profile/${userId}`)}
           >
             <FlexBetween gap="1rem">
-              <UserImage image={foto} />
+              <UserImage />
               <Box>
                 <Typography
                   variant="h4"
