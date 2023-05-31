@@ -2,7 +2,7 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  ShareOutlined,
+  Api,
 } from "@mui/icons-material";
 import {
   Box, Divider, IconButton, Typography, useTheme, Button, Input,
@@ -20,7 +20,6 @@ import UserImage from "components/UserImage";
 
 
 const PostWidget = ({
-  comentarioData,
   likes,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,6 +82,18 @@ const PostWidget = ({
       });
   };
 
+  console.log(noticiaId)
+
+  // const getComentario = async () => {
+
+
+  //   try {
+  //     const response = await axios.get(`http://localhost:8080/noticia/comentarios-id-noticia/${idNoticia}`);
+  //     setComentario(response.data);
+  //   } catch (error) {
+  //     console.log('Erro ao obter as postagens:', error);
+  //   }
+  // };
 
 
   const getPost = async () => {
@@ -170,7 +181,7 @@ const PostWidget = ({
                 </FlexBetween>
               </FlexBetween>
               <IconButton onClick={handleModalOpen}>
-                <ShareOutlined />
+                    <Api/>
               </IconButton>
               <Modal open={isModalOpen} onClose={handleModalClose}>
                 <Box

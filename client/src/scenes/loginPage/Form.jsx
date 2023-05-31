@@ -6,6 +6,7 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
+  MenuItem
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
@@ -17,16 +18,19 @@ import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import axios from "axios";
 
-
-
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
   username: yup.string().required("required"),
   password: yup.string().required("required"),
   cpf: yup.string().required("required"),
-  cnpj: yup.string(),
+  cnpj: yup.string().when('isInfluencer', {
+    is: true,
+    then: yup.string().required("required"),
+    otherwise: yup.string()
+  }),
   picture: yup.string().required("required"),
+  isInfluencer: yup.boolean(),
 });
 
 const loginSchema = yup.object().shape({
@@ -42,6 +46,7 @@ const initialValuesRegister = {
   cnpj: "",
   cpf: "",
   picture: null,
+  isInfluencer: false,
 };
 
 const initialValuesLogin = {
@@ -57,7 +62,6 @@ const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
-
 
   const register = async (values, onSubmitProps) => {
     const file = values.picture;
@@ -80,7 +84,7 @@ const Form = () => {
         username: values.username,
         senha: values.password,
         autenticado: false, // Defina o valor correto se necessário
-        influencer: false, // Defina o valor correto se necessário
+        influencer: values.isInfluencer,
         logado: false, // Defina o valor correto se necessário
         cpf: values.cpf,
         cnpj: values.cnpj,
@@ -109,27 +113,28 @@ const Form = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:8080/login/logar", requestData);
+      const response = await axios.post(
+        "http://localhost:8080/login/logar",
+        requestData
+      );
       const loggedInUser = response.data;
       onSubmitProps.resetForm();
 
       if (loggedInUser) {
-        console.log("ENTREI NO DISPATCH")
+        console.log("ENTREI NO DISPATCH");
         dispatch(
           setLogin({
             user: loggedInUser,
             token: response.headers.authorization,
           })
-
         );
-        console.log("após o dispatch")
+        console.log("após o dispatch");
         navigate("/home");
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
-
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);
@@ -162,9 +167,7 @@ const Form = () => {
               "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
             }}
           >
-
             {isRegister && (
-
               <>
                 <Box sx={{ mb: "1.5rem", gridColumn: "span 4" }}>
                   <Typography fontWeight="500" variant="h5">
@@ -172,9 +175,8 @@ const Form = () => {
                   </Typography>
                 </Box>
 
-
                 <TextField
-                  label="First Name"
+                  label="Nome"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.firstName}
@@ -186,7 +188,7 @@ const Form = () => {
                   sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
-                  label="Last Name"
+                  label="Sobrenome"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.lastName}
@@ -211,9 +213,7 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.cnpj}
                   name="cnpj"
-                  error={
-                    Boolean(touched.cnpj) && Boolean(errors.cnpj)
-                  }
+                  error={Boolean(touched.cnpj) && Boolean(errors.cnpj)}
                   helperText={touched.cnpj && errors.cnpj}
                   sx={{ gridColumn: "span 4" }}
                 />
@@ -239,7 +239,7 @@ const Form = () => {
                       >
                         <input {...getInputProps()} />
                         {!values.picture ? (
-                          <p>Add Picture Here</p>
+                          <p>Adicione sua foto aqui..</p>
                         ) : (
                           <FlexBetween>
                             <Typography>{values.picture.name}</Typography>
@@ -253,15 +253,34 @@ const Form = () => {
               </>
             )}
 
+            {isRegister && (
+              <>
+                <TextField
+                  select
+                  label="Influenciador"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.influencer}
+                  name="influencer"
+                  error={Boolean(touched.influencer) && Boolean(errors.influencer)}
+                  helperText={touched.influencer && errors.influencer}
+                  sx={{ gridColumn: "span 4" }}
+                >
+                  <MenuItem influencer={false}>Usuário Comum</MenuItem>
+                  <MenuItem influencer={true}>Influenciador</MenuItem>
+                </TextField>
+              </>
+            )}
+
             {isLogin && (
               <Box sx={{ mb: "0.2rem", gridColumn: "span 4" }}>
                 <Typography fontWeight="500" variant="h5">
                   Bem vindo a Zup, Acesse sua conta para continuar.
                 </Typography>
               </Box>
-)
-            }
+            )}
 
+             
             <TextField
               label="Usuario"
               onBlur={handleBlur}
@@ -284,7 +303,8 @@ const Form = () => {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
-
+        
+        
           {/* BUTTONS */}
           <Box>
             <Button
