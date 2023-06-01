@@ -30,7 +30,7 @@ const PostWidget = ({ }) => {
   const [pergunta, setPergunta] = useState("");
   const [resposta, setResposta] = useState("");
   const loggedInUserId = useSelector((state) => state.user.id);
-  const idUser = useSelector((state) => state.user.id)
+  const idUser = useSelector((state) => state.user.id);
   const nome = useSelector((state) => state.user.nome);
   const [postagens, setPostagens] = useState([]);
   const [comentarioId, setComentarioId] = useState(null);
@@ -41,7 +41,7 @@ const PostWidget = ({ }) => {
   const primary = palette.primary.main;
   const dark = palette.neutral.dark;
 
-  
+  console.log((state) => state.user)
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -130,7 +130,7 @@ const PostWidget = ({ }) => {
     setComentarioId(id === comentarioId ? null : id);
   };
 
-  const handleLike = (id)=>{
+  const handleLike = (id) => {
     patchLike(id)
   }
 
@@ -163,13 +163,13 @@ const PostWidget = ({ }) => {
             <FlexBetween gap="1rem">
               <FlexBetween gap="0.3rem">
                 <IconButton onClick={() => handleLike(item.id)}>
-                    <FavoriteOutlined/>
+                  <FavoriteOutlined />
                 </IconButton>
                 <Typography>{item.likes ?? 0}</Typography>
               </FlexBetween>
 
               <FlexBetween gap="0.3rem">
-                <IconButton onClick={() => handleComentarioClick(idUser)}>
+                <IconButton onClick={() => handleComentarioClick(item.id)}>
                   <ChatBubbleOutlineOutlined />
                 </IconButton>
                 <Typography>{comentarios.length}</Typography>
@@ -179,62 +179,60 @@ const PostWidget = ({ }) => {
               <Api />
             </IconButton>
             <Modal open={isModalOpen} onClose={handleModalClose}>
-  <WidgetWrapper
-    display="flex"
-    justifyContent="center"
-    alignItems="center"
-    position={"center"}
-    sx={{ width: "50vh" }}
-  >
-    <Box>
-      <Typography variant="h5" gutterBottom>
-        Pergunte à nossa IA
-      </Typography>
-      <form onSubmit={handleModalSubmit}>
-        <Input
-          placeholder="Digite um título"
-          value={titulo}
-          onChange={handleQuestionChange}
-          fullWidth
-          sx={{ marginBottom: "10px" }}
-        />
-        <Input
-          placeholder="Digite uma pergunta"
-          value={pergunta}
-          onChange={handleAnswerChange}
-          fullWidth
-          multiline
-          rows={4}
-          sx={{ marginBottom: "10px" }}
-        />
-        {resposta && (
-          <Typography variant="body1" sx={{ marginTop: "10px" }}>
-            {resposta}
-          </Typography>
-        )}
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            onClick={handleModalSubmit}
-            type="submit"
-            variant="contained"
-            sx={{ marginLeft: "10px" }}
-          >
-            Enviar
-          </Button>
-          <Button
-            onClick={handleModalClose}
-            variant="contained"
-            sx={{ marginLeft: "10px" }}
-          >
-            Cancelar
-          </Button>
-        </Box>
-      </form>
-    </Box>
-  </WidgetWrapper>
-</Modal>
-
-
+              <WidgetWrapper
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                position={"center"}
+                sx={{ width: "50vh" }}
+              >
+                <Box>
+                  <Typography variant="h5" gutterBottom>
+                    Pergunte à nossa IA
+                  </Typography>
+                  <form onSubmit={handleModalSubmit}>
+                    <Input
+                      placeholder="Digite um título"
+                      value={titulo}
+                      onChange={handleQuestionChange}
+                      fullWidth
+                      sx={{ marginBottom: "10px" }}
+                    />
+                    <Input
+                      placeholder="Digite uma pergunta"
+                      value={pergunta}
+                      onChange={handleAnswerChange}
+                      fullWidth
+                      multiline
+                      rows={4}
+                      sx={{ marginBottom: "10px" }}
+                    />
+                    {resposta && (
+                      <Typography variant="body1" sx={{ marginTop: "10px" }}>
+                        {resposta}
+                      </Typography>
+                    )}
+                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                      <Button
+                        onClick={handleModalSubmit}
+                        type="submit"
+                        variant="contained"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        Enviar
+                      </Button>
+                      <Button
+                        onClick={handleModalClose}
+                        variant="contained"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        Cancelar
+                      </Button>
+                    </Box>
+                  </form>
+                </Box>
+              </WidgetWrapper>
+            </Modal>
           </FlexBetween>
           {comentarioId === item.id && (
             <Box mt="0.5rem">
