@@ -88,7 +88,7 @@ const PostWidget = ({ }) => {
   const getPost = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/admin/filaPilha/noticias"
+        "https://api-zup.azurewebsites.net/admin/filaPilha/noticias"
       );
       setPostagens(response.data);
     } catch (error) {
