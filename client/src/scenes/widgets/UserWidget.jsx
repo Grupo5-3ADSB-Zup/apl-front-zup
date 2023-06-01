@@ -18,7 +18,7 @@ const UserWidget = ({ userId }) => {
 
   const getUse = async () => {
     try {
-      const response = await axios.get(`https:/localhost:8080/usuario/${userId}`,  {
+      const response = await axios.get(`http://localhost:8080/usuario/${userId}`,  {
       });
       setUser(response.data);
       console.log("chegou");

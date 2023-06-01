@@ -13,7 +13,7 @@ const AdminWidget = () => {
   const getUser = async () => {
 
     try {
-      const response = await axios.get("https://localhost:8080/admin");
+      const response = await axios.get("http://localhost:8080/admin");
       setInfluencers(response.data);
     } catch (error) {
       console.log('Erro ao obter as postagens:', error);
@@ -31,7 +31,7 @@ const AdminWidget = () => {
     const fileName = prompt('Digite o nome do arquivo') || 'arquivo';
 
     try {
-      const response = await axios.get(`https://localhost:8080/admin/csv/${fileName}`, {
+      const response = await axios.get(`http://localhost:8080/admin/csv/${fileName}`, {
         filename: fileName,
       }, {
         responseType: 'blob',

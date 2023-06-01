@@ -92,7 +92,7 @@ const Form = () => {
       };
 
       const response = await axios.post(
-        "https://localhost:8080/cadastro/user/comum",
+        "http://localhost:8080/cadastro/user/comum",
         requestData
       );
       const savedUser = response.data;
@@ -114,7 +114,7 @@ const Form = () => {
 
     try {
       const response = await axios.post(
-        "https://localhost:8080/login/logar",
+        "http://localhost:8080/login/logar",
         requestData
       );
       const loggedInUser = response.data;
