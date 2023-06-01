@@ -171,7 +171,7 @@ const Form = () => {
               <>
                 <Box sx={{ mb: "1.5rem", gridColumn: "span 4" }}>
                   <Typography fontWeight="500" variant="h5">
-                    Bem vindo a Zup, insira seus dados para criar uma conta.
+                    Bem vindo a Zup, insira seus dados para criar uma conta
                   </Typography>
                 </Box>
 
@@ -260,27 +260,28 @@ const Form = () => {
                   label="Influenciador"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.influencer}
-                  name="influencer"
+                  value={values.isInfluencer} // Update the value prop here
+                  name="isInfluencer"
                   error={Boolean(touched.influencer) && Boolean(errors.influencer)}
                   helperText={touched.influencer && errors.influencer}
                   sx={{ gridColumn: "span 4" }}
                 >
-                  <MenuItem influencer={false}>Usuário Comum</MenuItem>
-                  <MenuItem influencer={true}>Influenciador</MenuItem>
+                  <MenuItem value={false}>Usuário Comum</MenuItem>
+                  <MenuItem value={true}>Influenciador</MenuItem>
                 </TextField>
+
               </>
             )}
 
             {isLogin && (
               <Box sx={{ mb: "0.2rem", gridColumn: "span 4" }}>
                 <Typography fontWeight="500" variant="h5">
-                  Bem vindo a Zup, Acesse sua conta para continuar.
+                  Bem vindo a Zup, acesse sua conta para continuar
                 </Typography>
               </Box>
             )}
 
-             
+
             <TextField
               label="Usuario"
               onBlur={handleBlur}
@@ -303,8 +304,8 @@ const Form = () => {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
-        
-        
+
+
           {/* BUTTONS */}
           <Box>
             <Button
@@ -318,7 +319,7 @@ const Form = () => {
                 "&:hover": { color: palette.primary.main },
               }}
             >
-              {isLogin ? "LOGIN" : "REGISTER"}
+              {isLogin ? "LOGIN" : "REGISTRAR"}
             </Button>
             <Typography
               onClick={() => {

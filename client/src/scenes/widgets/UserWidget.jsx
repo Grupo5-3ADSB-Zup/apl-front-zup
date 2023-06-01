@@ -67,28 +67,10 @@ const UserWidget = ({ userId }) => {
             </FlexBetween>
             <ManageAccountsOutlined />
           </FlexBetween>
-          <Divider />
-
-          
-          <Box p="1rem 0">
-            <FlexBetween mb="0.5rem">
-              <Typography color={medium}>Who's viewed your profile</Typography>
-          <Typography color={main} fontWeight="500">
-          </Typography>
-            </FlexBetween>
-            <FlexBetween>
-              <Typography color={medium}>Impressions of your post</Typography>
-          <Typography color={main} fontWeight="500">
-          </Typography>
-            </FlexBetween>
-          </Box>
-
-          <Divider />
-
           
           <Box p="1rem 0">
             <Typography fontSize="1rem" color={main} fontWeight="500" mb="1rem">
-              Social Profiles
+              Redes de contato
             </Typography>
 
             <FlexBetween gap="1rem" mb="0.5rem">
@@ -98,7 +80,7 @@ const UserWidget = ({ userId }) => {
                   <Typography color={main} fontWeight="500">
                     Twitter
                   </Typography>
-                  <Typography color={medium}>Social Network</Typography>
+                  <Typography color={medium}>Rede Social</Typography>
                 </Box>
               </FlexBetween>
               <EditOutlined sx={{ color: main }} />
@@ -111,7 +93,7 @@ const UserWidget = ({ userId }) => {
                   <Typography color={main} fontWeight="500">
                     Linkedin
                   </Typography>
-                  <Typography color={medium}>Network Platform</Typography>
+                  <Typography color={medium}>Plataforma de network</Typography>
                 </Box>
               </FlexBetween>
               <EditOutlined sx={{ color: main }} />

@@ -4,6 +4,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useEffect } from 'react';
+import Navbar from 'scenes/navbar';
 
 const AdminWidget = () => {
   const [influencers, setInfluencers] = useState([]);
@@ -51,9 +52,7 @@ const AdminWidget = () => {
   return (
 
     <div style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Button variant="contained" onClick={handleGenerateFile} style={{ marginBottom: '16px' }}>
-        Gerar Arquivo
-      </Button>
+      
       <TableContainer style={{ width: '80%' }}>
         <WidgetWrapper>
           <Table>
@@ -92,6 +91,9 @@ const AdminWidget = () => {
           </Table>
         </WidgetWrapper>
       </TableContainer>
+      <Button variant="contained" onClick={handleGenerateFile} style={{marginTop: "16px"}}>
+        Gerar Arquivo
+      </Button>
     </div>
   );
 };
