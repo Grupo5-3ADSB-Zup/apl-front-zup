@@ -1,6 +1,7 @@
 import { Typography, useTheme } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
+import image from "../../assets/info4.jpeg"
 
 const AdvertWidget = () => {
   const { palette } = useTheme();
@@ -12,24 +13,23 @@ const AdvertWidget = () => {
     <WidgetWrapper>
       <FlexBetween>
         <Typography color={dark} variant="h5" fontWeight="500">
-          Sponsored
+         Patrocinadores
         </Typography>
-        <Typography color={medium}>Create Ad</Typography>
+        <Typography color={medium}>AD</Typography>
       </FlexBetween>
       <img
         width="100%"
         height="auto"
         alt="advert"
-        // src="http://localhost:3001/assets/info4.jpeg"
+        src={image}
         style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
       />
       <FlexBetween>
-        <Typography color={main}>MikaCosmetics</Typography>
-        <Typography color={medium}>mikacosmetics.com</Typography>
+        <Typography color={main}>Mika Cosmedicos</Typography>
+        <Typography color={medium}>mikacosmedicos.com</Typography>
       </FlexBetween>
       <Typography color={medium} m="0.5rem 0">
-        Your pathway to stunning and immaculate beauty and made sure your skin
-        is exfoliating skin and shining like light.
+      Com um toque de pincel mágico, Mika Cosmediocos transforma a maquiagem em verdadeiras poções de beleza, revelando a magia que existe em cada pessoa.
       </Typography>
     </WidgetWrapper>
   );

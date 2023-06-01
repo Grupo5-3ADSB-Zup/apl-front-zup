@@ -156,8 +156,10 @@ const PostWidget = ({ }) => {
             {item.titulo}
           </Typography>
           <Divider />
+          <Typography fontSize={"13px"} marginBottom={"10px"} color={main} sx={{ mt: "1rem" }}>
           <ComponenteX texto={item.descricao} idNoticia={item?.id} />
           <Box id={`noticia_${item.id}`}></Box>
+          </Typography>
           <Divider />
           <FlexBetween mt="0.25rem">
             <FlexBetween gap="1rem">
@@ -184,7 +186,13 @@ const PostWidget = ({ }) => {
                 justifyContent="center"
                 alignItems="center"
                 position={"center"}
-                sx={{ width: "50vh" }}
+                sx={{
+                  width: "50vh",
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
               >
                 <Box>
                   <Typography variant="h5" gutterBottom>
@@ -253,7 +261,7 @@ const PostWidget = ({ }) => {
                         <Box ml={1}>
                           <Typography
                             variant="h5"
-                            color={dark}
+                            color={main}
                             fontWeight="200"
                             sx={{
                               "&:hover": {

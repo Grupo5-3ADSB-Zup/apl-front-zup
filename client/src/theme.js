@@ -5,7 +5,7 @@ export const colorTokens = {
     10: "#D7EAF0",
     50: "#F0F0F0",
     100: "#E0E0E0",
-    200: "#C2C2C2",
+    200: "#FFFFFF",
     300: "#A3A3A3",
     400: "#858585",
     500: "#666666",
@@ -64,7 +64,7 @@ export const themeSettings = (mode) => {
             },
             neutral: {
               dark: colorTokens.grey[700],
-              main: colorTokens.grey[500],
+              main: colorTokens.grey[200],
               mediumMain: colorTokens.grey[400],
               medium: colorTokens.grey[300],
               light: colorTokens.grey[50],

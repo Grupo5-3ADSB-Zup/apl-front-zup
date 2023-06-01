@@ -1,10 +1,12 @@
-import { ManageAccountsOutlined, EditOutlined } from "@mui/icons-material";
+import { ManageAccountsOutlined, EditOutlined, VerifiedUserOutlined} from "@mui/icons-material";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import image from "../../assets/twitter.png"
+import image2 from "../../assets/linkedin.png"
 import axios from "axios";
 
 
@@ -37,6 +39,7 @@ const UserWidget = ({ userId }) => {
 
   const {
     nome,
+    influencer 
   } = user;
 
   return (
@@ -52,7 +55,7 @@ const UserWidget = ({ userId }) => {
               <Box>
                 <Typography
                   variant="h4"
-                  color={dark}
+                  color={main}
                   fontWeight="500"
                   sx={{
                     "&:hover": {
@@ -61,7 +64,7 @@ const UserWidget = ({ userId }) => {
                     },
                   }}
                 >
-              {nome} 
+              {nome} {influencer && <VerifiedUserOutlined />}
                 </Typography>
               </Box>
             </FlexBetween>
@@ -75,7 +78,7 @@ const UserWidget = ({ userId }) => {
 
             <FlexBetween gap="1rem" mb="0.5rem">
               <FlexBetween gap="1rem">
-                <img src="../assets/twitter.png" alt="twitter" />
+                <img src={image} alt="twitter" />
                 <Box>
                   <Typography color={main} fontWeight="500">
                     Twitter
@@ -88,7 +91,7 @@ const UserWidget = ({ userId }) => {
 
             <FlexBetween gap="1rem">
               <FlexBetween gap="1rem">
-                <img src="../assets/linkedin.png" alt="linkedin" />
+                <img src={image2} alt="linkedin" />
                 <Box>
                   <Typography color={main} fontWeight="500">
                     Linkedin

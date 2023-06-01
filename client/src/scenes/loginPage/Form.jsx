@@ -24,11 +24,7 @@ const registerSchema = yup.object().shape({
   username: yup.string().required("required"),
   password: yup.string().required("required"),
   cpf: yup.string().required("required"),
-  cnpj: yup.string().when('isInfluencer', {
-    is: true,
-    then: yup.string().required("required"),
-    otherwise: yup.string()
-  }),
+  cnpj: yup.string(),
   picture: yup.string().required("required"),
   isInfluencer: yup.boolean(),
 });

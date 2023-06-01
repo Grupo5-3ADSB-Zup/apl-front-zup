@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Switch, IconButton, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Switch, IconButton, Button, useTheme } from '@mui/material';
 import WidgetWrapper from "components/WidgetWrapper";
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
@@ -8,10 +8,15 @@ import Navbar from 'scenes/navbar';
 
 const AdminWidget = () => {
   const [influencers, setInfluencers] = useState([]);
+  const [isActiveMap, setIsActiveMap] = useState({});
 
+  const { palette } = useTheme();
+  const main = palette.neutral.main;
+  const primary = palette.primary.main;
+  const dark = palette.neutral.dark;
+  const primaryColor = '#F2CB05';
 
   const getUser = async () => {
-
     try {
       const response = await axios.get("http://localhost:8080/admin");
       setInfluencers(response.data);
@@ -26,7 +31,16 @@ const AdminWidget = () => {
     );
     setInfluencers(updatedInfluencers);
   };
- 
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/usuario/${id}`);
+      getUser(); // Atualiza a lista de usuários após a exclusão
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleGenerateFile = async () => {
     const fileName = prompt('Digite o nome do arquivo') || 'arquivo';
 
@@ -45,55 +59,77 @@ const AdminWidget = () => {
     }
   };
 
+  const handleSwitchChange = async (id, isActive) => {
+    try {
+      const response = await axios.put(`http://localhost:8080/admin/influencer/comum/${id}/${!isActive}`);
+      setIsActiveMap((prevState) => ({
+        ...prevState,
+        [id]: response.data.influencer,
+      }));
+    } catch (error) {
+      // Handle error during status update
+      console.log("Error updating influencer status:", error);
+    }
+  };
+
   useEffect(() => {
     getUser();
   }, []);
 
   return (
-
-    <div style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      
-      <TableContainer style={{ width: '80%' }}>
-        <WidgetWrapper>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Identificador</TableCell>
-                <TableCell>Nome</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Influenciador</TableCell>
-                <TableCell>Deletar</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {influencers.map((influencer) => (
-                <TableRow key={influencer.id}>
-                  <TableCell>{influencer.id}</TableCell>
-                  <TableCell>{influencer.nome}</TableCell>
-                  <TableCell>{influencer.email}</TableCell>
-                  <TableCell>
-                    <Switch
-                      onChange={() => handleDeleteToggle(influencer.id)}
-                      color="primary"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      aria-label="Delete"
-                    // onClick={() => handleDelete(influencer.id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
+    <div>
+      <Navbar />
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <TableContainer style={{ width: '80%' }}>
+          <h1 style={{ color: primaryColor, marginBottom: '10px', fontSize: '20px' }}>Admin-Permissionamento</h1>
+          <WidgetWrapper>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Identificador</TableCell>
+                  <TableCell>Nome</TableCell>
+                  <TableCell>Usuario</TableCell>
+                  <TableCell>Influenciador</TableCell>
+                  <TableCell>Deletar</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </WidgetWrapper>
-      </TableContainer>
-      <Button variant="contained" onClick={handleGenerateFile} style={{marginTop: "16px"}}>
-        Gerar Arquivo
-      </Button>
+              </TableHead>
+              <TableBody>
+                {influencers.map((influencer) => (
+                  <TableRow key={influencer.id}>
+                    <TableCell>{influencer.id}</TableCell>
+                    <TableCell>{influencer.nome}</TableCell>
+                    <TableCell>{influencer.username}</TableCell>
+                    <TableCell>
+                      <Switch
+                        color="primary"
+                        checked={isActiveMap[influencer.id] || false}
+                        onChange={() => handleSwitchChange(influencer.id, isActiveMap[influencer.id] || false)}
+                      />
+
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        aria-label="Delete"
+                        onClick={() => handleDelete(influencer.id)} // Chama a função handleDelete com o ID do influenciador
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </WidgetWrapper>
+        </TableContainer>
+        <div style={{ display: 'flex', marginTop: '16px' }}>
+          <Button variant="contained" onClick={handleGenerateFile} style={{ marginRight: '8px' }}>
+            Gerar Arquivo
+          </Button>
+          <Button variant="contained" onClick={handleGenerateFile}>
+            Importar Arquivo
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

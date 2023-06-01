@@ -41,7 +41,7 @@ const MyPostWidget = ({ idNoticia, comentarios, setComentarios }) => {
     const data = {
       comentario,
     };
-  
+
     try {
       const response = await axios.post(`http://localhost:8080/noticia/comentarios/${id}/${idNoticia}`, data);
       const novoComentario = response.data.comentario;
@@ -53,16 +53,16 @@ const MyPostWidget = ({ idNoticia, comentarios, setComentarios }) => {
       console.log('Alguma coisa deu errado!', error);
     }
   };
-  
-  
-  
+
+
+
 
   return (
     <WidgetWrapper>
       <FlexBetween gap="1.5rem">
         <UserImage />
         <InputBase
-          placeholder="What's on your mind..."
+          placeholder="Comente aqui..."
           onChange={(e) => setComentario(e.target.value)}
           value={comentario}
           sx={{
@@ -118,42 +118,7 @@ const MyPostWidget = ({ idNoticia, comentarios, setComentarios }) => {
         </Box>
       )}
 
-      <Divider sx={{ margin: "1.25rem 0" }} />
-
-      <FlexBetween>
-        <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
-          <ImageOutlined sx={{ color: mediumMain }} />
-          <Typography
-            color={mediumMain}
-            sx={{ "&:hover": { cursor: "pointer", color: medium } }}
-          >
-            Image
-          </Typography>
-        </FlexBetween>
-
-        {isNonMobileScreens ? (
-          <>
-            <FlexBetween gap="0.25rem">
-              <GifBoxOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Clip</Typography>
-            </FlexBetween>
-
-            <FlexBetween gap="0.25rem">
-              <AttachFileOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Attachment</Typography>
-            </FlexBetween>
-
-            <FlexBetween gap="0.25rem">
-              <MicOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Audio</Typography>
-            </FlexBetween>
-          </>
-        ) : (
-          <FlexBetween gap="0.25rem">
-            <MoreHorizOutlined sx={{ color: mediumMain }} />
-          </FlexBetween>
-        )}
-
+      <FlexBetween style={{ justifyContent: 'flex-end' }}>
         <Button
           disabled={!comentario}
           onClick={handlePost}
@@ -161,6 +126,7 @@ const MyPostWidget = ({ idNoticia, comentarios, setComentarios }) => {
             color: palette.background.alt,
             backgroundColor: palette.primary.main,
             borderRadius: "3rem",
+            marginTop: "10px"
           }}
         >
           POST
