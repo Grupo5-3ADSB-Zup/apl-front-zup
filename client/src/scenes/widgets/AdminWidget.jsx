@@ -16,6 +16,28 @@ const AdminWidget = () => {
   const dark = palette.neutral.dark;
   const primaryColor = '#F2CB05';
 
+  const handleImportFile = async () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+  
+    input.onchange = async (event) => {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append('arquivo', file);
+  
+      try {
+        await axios.post('http://localhost:8080/admin/importacao/txt', formData);
+  
+        alert('Arquivo importado com sucesso!');
+      } catch (error) {
+        console.error('Erro ao importar o arquivo:', error);
+      }
+    };
+  
+    input.click();
+  };
+  
+
   const getUser = async () => {
     try {
       const response = await axios.get("http://localhost:8080/admin");
@@ -125,7 +147,7 @@ const AdminWidget = () => {
           <Button variant="contained" onClick={handleGenerateFile} style={{ marginRight: '8px' }}>
             Gerar Arquivo
           </Button>
-          <Button variant="contained" onClick={handleGenerateFile}>
+          <Button variant="contained" onClick={handleImportFile}>
             Importar Arquivo
           </Button>
         </div>
