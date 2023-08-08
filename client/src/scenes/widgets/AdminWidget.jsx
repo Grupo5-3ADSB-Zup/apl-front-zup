@@ -26,7 +26,7 @@ const AdminWidget = () => {
       formData.append('arquivo', file);
   
       try {
-        await axios.post('http://localhost:8080/admin/importacao/txt', formData);
+        await axios.post('https://apl-api-zup.azurewebsites.net/admin/importacao/txt', formData);
   
         alert('Arquivo importado com sucesso!');
       } catch (error) {
@@ -40,7 +40,7 @@ const AdminWidget = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/admin");
+      const response = await axios.get("https://apl-api-zup.azurewebsites.net/admin");
       setInfluencers(response.data);
     } catch (error) {
       console.log('Erro ao obter as postagens:', error);
@@ -56,7 +56,7 @@ const AdminWidget = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/usuario/${id}`);
+      await axios.delete(`https://apl-api-zup.azurewebsites.net/usuario/${id}`);
       getUser(); // Atualiza a lista de usuários após a exclusão
     } catch (error) {
       console.error(error);
@@ -67,7 +67,7 @@ const AdminWidget = () => {
     const fileName = prompt('Digite o nome do arquivo') || 'arquivo';
 
     try {
-      const response = await axios.get(`http://localhost:8080/admin/csv/${fileName}`, {
+      const response = await axios.get(`https://apl-api-zup.azurewebsites.net/admin/csv/${fileName}`, {
         filename: fileName,
       }, {
         responseType: 'blob',
@@ -83,7 +83,7 @@ const AdminWidget = () => {
 
   const handleSwitchChange = async (id, isActive) => {
     try {
-      const response = await axios.put(`http://localhost:8080/admin/influencer/comum/${id}/${!isActive}`);
+      const response = await axios.put(`https://apl-api-zup.azurewebsites.net/admin/influencer/comum/${id}/${!isActive}`);
       setIsActiveMap((prevState) => ({
         ...prevState,
         [id]: response.data.influencer,

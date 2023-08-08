@@ -43,7 +43,7 @@ const MyPostWidget = ({ idNoticia, comentarios, setComentarios }) => {
     };
 
     try {
-      const response = await axios.post(`http://localhost:8080/noticia/comentarios/${id}/${idNoticia}`, data);
+      const response = await axios.post(`https://apl-api-zup.azurewebsites.net/noticia/comentarios/${id}/${idNoticia}`, data);
       const novoComentario = response.data.comentario;
       setComentarios([...comentarios, novoComentario]);
       setComentario('');

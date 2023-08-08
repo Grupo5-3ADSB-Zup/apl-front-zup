@@ -18,7 +18,7 @@ const ProfilePage = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/usuario/${userId}`);
+      const response = await axios.get(`https://apl-api-zup.azurewebsites.net/usuario/${userId}`);
       setUser(response.data);
     } catch (error) {
       console.log('Erro ao obter o usuário:', error);
