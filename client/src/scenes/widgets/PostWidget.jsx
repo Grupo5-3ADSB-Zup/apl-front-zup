@@ -72,7 +72,7 @@ const PostWidget = ({ }) => {
 
     try {
       const response = await axios.post(
-        "https://apl-api-zup.azurewebsites.net/noticia/rss/info",
+        "https://apl-back-end-zup.azurewebsites.net/noticia/rss/info",
         data
       );
       setResposta(response.data.resposta);
@@ -88,7 +88,7 @@ const PostWidget = ({ }) => {
   const getPost = async () => {
     try {
       const response = await axios.get(
-        "https://apl-api-zup.azurewebsites.net/admin/filaPilha/noticias"
+        "https://apl-back-end-zup.azurewebsites.net/admin/filaPilha/noticias"
       );
       setPostagens(response.data);
     } catch (error) {
@@ -99,7 +99,7 @@ const PostWidget = ({ }) => {
   const patchLike = async (id) => {
     try {
       const response = await axios.post(
-        `https://apl-api-zup.azurewebsites.net/noticia/likes/${id}`,
+        `https://apl-back-end-zup.azurewebsites.net/noticia/likes/${id}`,
         {
           likes: 1
         }

@@ -20,7 +20,7 @@ const UserWidget = ({ userId }) => {
 
   const getUse = async () => {
     try {
-      const response = await axios.get(`https://apl-api-zup.azurewebsites.net/usuario/${userId}`,  {
+      const response = await axios.get(`https://apl-back-end-zup.azurewebsites.net/usuario/${userId}`,  {
       });
       setUser(response.data);
       console.log("chegou");
