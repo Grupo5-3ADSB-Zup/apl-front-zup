@@ -10,7 +10,7 @@ const UserImage = ({ size = "60px" }) => {
   useEffect(() => {
     const fetchUserImage = async () => {
       try {
-        const response = await axios.get(`https://apl-back-end-zup.azurewebsites.net/usuario/foto/${id}`, {
+        const response = await axios.get(`http://localhost:8080/usuario/foto/${id}`, {
           responseType: "arraybuffer", 
         });
 

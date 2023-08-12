@@ -88,7 +88,7 @@ const Form = () => {
       };
 
       const response = await axios.post(
-        "https://apl-back-end-zup.azurewebsites.net/cadastro/user/comum",
+        "http://localhost:8080/cadastro/user/comum",
         requestData
       );
       const savedUser = response.data;
@@ -110,7 +110,7 @@ const Form = () => {
 
     try {
       const response = await axios.post(
-        "https://apl-back-end-zup.azurewebsites.net/login/logar",
+        "http://localhost:8080/login/logar",
         requestData
       );
       const loggedInUser = response.data;
