@@ -99,7 +99,7 @@ const PostWidget = ({ }) => {
   const patchLike = async (id) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/noticia/likes/${id}`,
+        `http://localhost:8080/noticia/likes/${idUser}/${id}`,
         {
           likes: 1
         }
