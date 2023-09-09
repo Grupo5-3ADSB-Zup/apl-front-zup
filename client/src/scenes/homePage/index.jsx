@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Navbar from "scenes/navbar";
 import UserWidget from "scenes/widgets/UserWidget";
 
-import PostsWidget from "scenes/widgets/PostsWidget";
+import PostsWidget from "scenes/widgets/PostWidget";
 import AdvertWidget from "scenes/widgets/AdvertWidget";
 import FriendListWidget from "scenes/widgets/FriendListWidget";
 
